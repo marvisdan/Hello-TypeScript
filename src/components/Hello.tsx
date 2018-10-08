@@ -1,43 +1,27 @@
 
 import * as React from 'react';
-
-export interface Props {
-  name: string,
-  enthusiasmLevel?: number,
+import './Hello.module.scss';
+export interface IProps {
+  languageName: string;
+  enthusiasmLevel?: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
 }
-interface State {
-  currentEnthusiasm: number,
-}
+// need functionnal component to connect HOC because there is no state 
+function Hello({ languageName, enthusiasmLevel = 1, onIncrement, onDecrement }: IProps) {
 
-class Hello extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-      this.state= {
-        currentEnthusiasm: props.enthusiasmLevel || 1,
-      };
-  }
-  public updateEnthusiasm(currentEnthusiasm: number) {
-    this.setState({ currentEnthusiasm });
-  }
-  public onIncrement = () => this.updateEnthusiasm(this.state.currentEnthusiasm + 1);
-  public onDecrement = () => this.updateEnthusiasm(this.state.currentEnthusiasm - 1);
-
-
-  render() {
-    const {name } = this.props;
-    if( this.state.currentEnthusiasm <= 0 ) {
+    if( enthusiasmLevel <=0 ) {
       throw new Error('You could be a little more enthusiastic. :D');
     }
     return (
-      <div className="hello">
+      <div className="ok">
         <div className="greeting">
-        Hello {name + getExclamationMark(this.state.currentEnthusiasm)}
+        Hello {languageName + getExclamationMark(enthusiasmLevel)}
         </div>
-        <button onClick={this.onIncrement}> + </button>
-        <button onClick={this.onDecrement}> _ </button>
+        <button onClick={onIncrement}> + </button>
+        <button onClick={onDecrement}> _ </button>
       </div>
     );
-  }
 }
 // Helper
 function getExclamationMark(numChars: number) {
